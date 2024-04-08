@@ -8,10 +8,19 @@ import { OutgoingTransport } from "insite-ws-transfers/browser/outgoing";
 
 
 export class InSite extends EventEmitter {
-	constructor() {
+	constructor({ wssurl = process.env.INSITE_WSS }) {
 		super();
 		
-		this.ws = new InSiteWebSocket(`wss://wss.${process.env.REMOTE_HOST}`);
+		if (!wssurl)
+			throw new Error("wssurl or INSITE_WSS have to be set");
+		
+		if (!/^wss?:\/\//.test(wssurl))
+			wssurl =
+				/^https?:\/\//.test(wssurl) ?
+					wssurl.replace(/^http(s?):\/\//, "ws$1://") :
+					`wss://${wssurl}`;
+		
+		this.ws = new InSiteWebSocket(wssurl);
 		
 		new RequestSender(this.ws);
 		
