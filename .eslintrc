@@ -2,7 +2,8 @@
 	"extends": "@nesvet",
 	"env": {
 		"browser": true,
-		"node": true
+		"node": true,
+		"es2020": true
 	},
 	"root": true
 }
