@@ -4,7 +4,7 @@ import { Subscription } from "insite-subscriptions-client";
 import { UsersSubscriptionGroup } from "insite-users-client";
 import { WebSocket } from "insite-ws/client";
 import { RequestSender } from "insite-ws-requests";
-import { OutgoingTransport } from "insite-ws-transfers/browser/outgoing";
+import { OutgoingTransport } from "insite-ws-transfers/browser";
 
 
 export class InSite extends EventEmitter {
