@@ -1,8 +1,8 @@
 import EventEmitter from "eventemitter3";
-import { CookieSetterClient } from "insite-cookie/ws/client";
+import { CookieSetter } from "insite-cookie/client";
 import { Subscription } from "insite-subscriptions-client";
 import { UsersSubscriptionGroup } from "insite-users-client";
-import { InSiteWebSocket } from "insite-ws/client";
+import { WebSocket } from "insite-ws/client";
 import { RequestSender } from "insite-ws-requests";
 import { OutgoingTransport } from "insite-ws-transfers/browser/outgoing";
 
@@ -20,13 +20,13 @@ export class InSite extends EventEmitter {
 					wssurl.replace(/^http(s?):\/\//, "ws$1://") :
 					`wss://${wssurl}`;
 		
-		this.ws = new InSiteWebSocket(wssurl);
+		this.ws = new WebSocket(wssurl);
 		
 		new RequestSender(this.ws);
 		
 		new OutgoingTransport(this.ws);
 		
-		new CookieSetterClient(this.ws);
+		new CookieSetter(this.ws);
 		
 		
 		Subscription.bindTo(this.ws);
