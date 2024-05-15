@@ -8,7 +8,7 @@
   "packageManager": "bun@1.1.8",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node .conveyer"
+    "build": "bun .conveyer.js"
   },
   "repository": {
     "type": "git",
