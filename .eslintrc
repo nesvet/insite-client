@@ -5,5 +5,8 @@
 		"node": true,
 		"es2020": true
 	},
+	"ignorePatterns": [
+		"dist/*"
+	],
 	"root": true
 }
