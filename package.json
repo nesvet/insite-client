@@ -1,11 +1,11 @@
 {
   "name": "insite-client",
-  "version": "1.0.73",
+  "version": "1.0.74",
   "description": "Client-side inSite app",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "packageManager": "bun@1.1.9",
+  "packageManager": "bun@1.1.12",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bun .conveyer.js"
@@ -22,16 +22,16 @@
   "author": "Eugene Nesvetaev <dev@nesvet.dev> (https://nesvet.dev/)",
   "license": "MIT",
   "dependencies": {
-    "eventemitter3": "^5",
-    "insite-cookie": "^1",
-    "insite-subscriptions-client": "^1",
-    "insite-users-client": "^1",
-    "insite-ws": "^1",
-    "insite-ws-requests": "^1",
-    "insite-ws-transfers": "^1"
+    "eventemitter3": "^5.0.1",
+    "insite-cookie": "^1.0.45",
+    "insite-subscriptions-client": "^1.0.295",
+    "insite-users-client": "^1.0.28",
+    "insite-ws": "^1.0.406",
+    "insite-ws-requests": "^1.0.314",
+    "insite-ws-transfers": "^1.0.471"
   },
   "devDependencies": {
-    "@nesvet/conveyer": "^2",
-    "@nesvet/eslint-config": "^1"
+    "@nesvet/conveyer": "^2.0.8",
+    "@nesvet/eslint-config": "^1.1.0"
   }
 }
