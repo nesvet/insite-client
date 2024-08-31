@@ -31,7 +31,6 @@
     "insite-ws-transfers": "^1.0.471"
   },
   "devDependencies": {
-    "@nesvet/conveyer": "^2.0.8",
-    "@nesvet/eslint-config": "^1.1.0"
+    "@nesvet/eslint-config": "^2.0.25",
   }
 }
