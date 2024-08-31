@@ -134,6 +134,9 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 		this.isReady = true;
 		this.emit("ready", true);
 		
+		delete this.init;
+		
+		return this;
 	};
 	
 	private initPromise;
@@ -146,7 +149,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	static init<IO extends Options<any>>(options: IO) {
 		type IAS = IO extends Options<infer EIAS> ? EIAS : never;
 		
-		return new InSite(options) as InSiteWithActualProps<InSite<IAS, IO>, IO>;
+		return (new InSite(options)).whenReady() as Promise<InSiteWithActualProps<InSite<IAS, IO>, IO>>;
 	}
 	
 }
