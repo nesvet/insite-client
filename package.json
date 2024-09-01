@@ -28,7 +28,7 @@
     "insite-common": "^2.0.0",
     "insite-cookie": "^2.0.14",
     "insite-subscriptions-client": "^2.0.2",
-    "insite-users-client": "^2.0.1",
+    "insite-users-client": "^2.0.2",
     "insite-ws": "^2.0.17",
     "insite-ws-transfers": "^2.0.10"
   },
