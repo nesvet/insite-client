@@ -1,6 +1,6 @@
 {
   "name": "insite-client",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Client-side inSite app",
   "type": "module",
   "main": "./dist/index.js",
