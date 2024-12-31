@@ -41,7 +41,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	constructor(options?: O) {
 		super();
 		
-		this.initPromise = this.init!(options);
+		this.#initPromise = this.init!(options);
 		
 	}
 	
@@ -77,9 +77,6 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 		} = wsWithOtherOptions;
 		
 		wsOptions.url ??= globalThis.__insite?.wss_url;
-		
-		if (!wsOptions.url)
-			throw new Error("options.ws.url or INSITE_CLIENT_WSS_URL have to be set");
 		
 		this.ws = new InSiteWebSocket(wsOptions);
 		
@@ -139,10 +136,10 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 		return this;
 	};
 	
-	private initPromise;
+	#initPromise;
 	
 	whenReady() {
-		return this.initPromise;
+		return this.#initPromise;
 	}
 	
 	
