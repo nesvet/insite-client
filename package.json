@@ -26,7 +26,7 @@
     "@nesvet/n": "^1.1.7",
     "eventemitter3": "^5.0.1",
     "insite-common": "^2.0.0",
-    "insite-cookie": "^2.0.28",
+    "insite-cookie": "^2.0.29",
     "insite-subscriptions-client": "^2.0.6",
     "insite-users-client": "^2.0.5",
     "insite-ws": "^2.0.18",
