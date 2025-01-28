@@ -144,7 +144,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	
 	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise?: true): Promise<InSiteWithActualProps<IS, IO>>;
 	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise?: false): InSiteWithActualProps<IS, IO>;
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise = true) {
+	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise = false) {
 		const inSite = new InSite(options);
 		
 		return asPromise ?
