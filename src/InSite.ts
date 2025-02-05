@@ -4,24 +4,17 @@ import type { AbilitiesSchema } from "insite-common";
 import { CookieSetter } from "insite-cookie/client";
 import { Subscription } from "insite-subscriptions-client";
 import {
+	UsersSubscriptionGroup,
 	type CurrentUser,
 	type Orgs,
 	type OrgsExtended,
 	type Roles,
 	type Users,
-	type UsersExtended,
-	UsersSubscriptionGroup
+	type UsersExtended
 } from "insite-users-client";
 import { IncomingTransport, OutgoingTransport } from "insite-ws-transfers/browser";
 import { InSiteWebSocket } from "insite-ws/client";
-import type { InSiteWithActualProps, Options } from "./types";
-
-
-declare global {
-	var __insite: undefined | { // eslint-disable-line no-var
-		wss_url?: string;
-	};
-}
+import type { InSiteWebSocketWithActualProps, OmitRedundant, Options } from "./types";
 
 
 /** @this InSite */
@@ -39,11 +32,12 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	constructor(options?: O) {
 		super();
 		
-		this.init(options);
+		if (options)
+			this.init(options);
 		
 	}
 	
-	ws!: InSiteWebSocket;
+	ws!: InSiteWebSocketWithActualProps<O>;
 	incomingTransport!: IncomingTransport;
 	outgoingTransport!: OutgoingTransport;
 	cookie!: CookieSetter;
@@ -75,9 +69,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 				...wsOptions
 			} = wsWithOtherOptions;
 			
-			wsOptions.url ??= globalThis.__insite?.wss_url;
-			
-			this.ws = new InSiteWebSocket(wsOptions);
+			this.ws = new InSiteWebSocket(wsOptions) as InSiteWebSocketWithActualProps<O>;
 			
 			if (subscriptions !== null)
 				Subscription.bindTo(this.ws);
@@ -142,14 +134,14 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	}
 	
 	
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise?: true): Promise<InSiteWithActualProps<IS, IO>>;
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise?: false): InSiteWithActualProps<IS, IO>;
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(this: new (options: Options<IAS>) => IS, options: IO, asPromise = false) {
-		const inSite = new InSite(options);
+	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise: true): Promise<OmitRedundant<IS, IO>>;
+	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise?: false): OmitRedundant<IS, IO>;
+	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise = false) {
+		const inSite = new InSite(options) as IS;
 		
 		return asPromise ?
-			inSite.whenReady() as Promise<InSiteWithActualProps<InSite<IAS, IO>, IO>> :
-			inSite as InSiteWithActualProps<InSite<IAS, IO>, IO>;
+			inSite.whenReady() :
+			inSite;
 	}
 	
 }
