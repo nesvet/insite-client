@@ -13,8 +13,8 @@ import {
 	type UsersExtended
 } from "insite-users-client";
 import { IncomingTransport, OutgoingTransport } from "insite-ws-transfers/browser";
-import { InSiteWebSocket } from "insite-ws/client";
-import type { InSiteWebSocketWithActualProps, OmitRedundant, Options } from "./types";
+import { WS } from "insite-ws/client";
+import type { OmitRedundant, Options, WSWithActualProps } from "./types";
 
 
 /** @this InSite */
@@ -37,7 +37,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 		
 	}
 	
-	ws!: InSiteWebSocketWithActualProps<O>;
+	ws!: WSWithActualProps<O>;
 	incomingTransport!: IncomingTransport;
 	outgoingTransport!: OutgoingTransport;
 	cookie!: CookieSetter;
@@ -69,7 +69,7 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 				...wsOptions
 			} = wsWithOtherOptions;
 			
-			this.ws = new InSiteWebSocket(wsOptions) as InSiteWebSocketWithActualProps<O>;
+			this.ws = new WS(wsOptions) as WSWithActualProps<O>;
 			
 			if (subscriptions !== null)
 				Subscription.bindTo(this.ws);

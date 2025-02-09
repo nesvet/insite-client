@@ -3,7 +3,7 @@ import type { AbilitiesSchema } from "insite-common";
 import type { Options as CookieOptions } from "insite-cookie/client";
 import type { IncomingTransportOptions } from "insite-ws-transfers";
 import type { WithOnTransfer, WithTransfer } from "insite-ws-transfers/browser";
-import type { InSiteWebSocket, Options as WSOptions } from "insite-ws/client";
+import type { Options as WSOptions, WS } from "insite-ws/client";
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -12,7 +12,7 @@ import type { InSiteWebSocket, Options as WSOptions } from "insite-ws/client";
 type WSSubscriptions = true;
 type WSIncomingTransport = IncomingTransportOptions | true;
 type WSOutgoingTransport = true;
-type WS = WSOptions & {
+type WSO = WSOptions & {
 	subscriptions?: WSSubscriptions | null;
 	incomingTransport?: WSIncomingTransport | null;
 	outgoingTransport?: WSOutgoingTransport | null;
@@ -24,7 +24,7 @@ type Users<AS extends AbilitiesSchema> = {
 
 
 export type Options<AS extends AbilitiesSchema> = {
-	ws?: WS;
+	ws?: WSO;
 	cookie?: Cookie | null;
 	users?: Users<AS> | null;
 };
@@ -49,19 +49,19 @@ export type OmitRedundant<I, O> =
 	>;
 
 
-type OptionalTransfer<O, W extends InSiteWebSocket> =
+type OptionalTransfer<O, W extends WS> =
 	O extends OptionsWithWSOutgoingTransport ?
 		WithTransfer<W> :
 		W;
 
-type OptionalOnTransfer<O, W extends InSiteWebSocket> =
+type OptionalOnTransfer<O, W extends WS> =
 	O extends OptionsWithWSIncomingTransport ?
 		WithOnTransfer<W> :
 		W;
 
-export type InSiteWebSocketWithActualProps<O> =
+export type WSWithActualProps<O> =
 	OptionalTransfer<O,
 		OptionalOnTransfer<O,
-			InSiteWebSocket
+			WS
 		>
 	>;
