@@ -26,15 +26,15 @@
     "@nesvet/n": "^1.1.22",
     "eventemitter3": "^5.0.1",
     "insite-common": "^2.1.0",
-    "insite-cookie": "^2.0.30",
-    "insite-subscriptions-client": "^2.0.7",
-    "insite-users-client": "^2.0.6",
-    "insite-ws": "^2.0.20",
-    "insite-ws-transfers": "^2.0.17"
+    "insite-cookie": "^2.1.0",
+    "insite-subscriptions-client": "^2.1.0",
+    "insite-users-client": "^2.1.0",
+    "insite-ws": "^2.1.0",
+    "insite-ws-transfers": "^2.1.0"
   },
   "devDependencies": {
     "@nesvet/conveyer": "^2.4.2",
-    "@nesvet/eslint-config": "^2.0.46",
+    "@nesvet/eslint-config": "^2.0.47",
     "typescript": "^5.7.3"
   }
 }
