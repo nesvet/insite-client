@@ -17,18 +17,24 @@ import { WS } from "insite-ws/client";
 import type { OmitRedundant, Options, WSWithActualProps } from "./types";
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 /** @this InSite */
-function login<AS extends AbilitiesSchema, O extends Options<AS>>(this: InSite<AS, O>, email: string, password: string) {
+function login<O extends Options<any>>(this: InSite<O>, email: string, password: string) {
 	return this.ws.sendRequest("login", email, password);
 }
 
 /** @this InSite */
-function logout<AS extends AbilitiesSchema, O extends Options<AS>>(this: InSite<AS, O>) {
+function logout<O extends Options<any>>(this: InSite<O>) {
 	return this.ws.sendRequest("logout");
 }
 
 
-export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends EventEmitter {
+export class InSite<
+	O extends Options<any>,
+	AS extends AbilitiesSchema = O extends Options<infer A> ? A : never
+> extends EventEmitter {
 	constructor(options?: O) {
 		super();
 		
@@ -48,8 +54,8 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	roles!: Roles;
 	isLoggedIn = false;
 	
-	login!: typeof login<AS, O>;
-	logout!: typeof logout<AS, O>;
+	login!: typeof login<O>;
+	logout!: typeof logout<O>;
 	
 	isReady = false;
 	
@@ -85,8 +91,8 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 			
 			if (users !== null && subscriptions !== null && cookieOptions !== null) {
 				this.user = null;
-				this.login = login<AS, O>;
-				this.logout = logout<AS, O>;
+				this.login = login<O>;
+				this.logout = logout<O>;
 				
 				this.usersSubscriptionGroup = new UsersSubscriptionGroup({ target: this });
 				
@@ -134,9 +140,9 @@ export class InSite<AS extends AbilitiesSchema, O extends Options<AS>> extends E
 	}
 	
 	
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise: true): Promise<OmitRedundant<IS, IO>>;
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise?: false): OmitRedundant<IS, IO>;
-	static init<IAS extends AbilitiesSchema, IO extends Options<IAS>, IS extends InSite<IAS, IO>>(options: IO, asPromise = false) {
+	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise: true): Promise<OmitRedundant<IS, IO>>;
+	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise?: false): OmitRedundant<IS, IO>;
+	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise = false) {
 		const inSite = new InSite(options) as IS;
 		
 		return asPromise ?
