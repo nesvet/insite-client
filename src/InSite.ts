@@ -141,8 +141,8 @@ export class InSite<
 	
 	
 	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise: true): Promise<OmitRedundant<IS, IO>>;
-	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise?: false): OmitRedundant<IS, IO>;
-	static init<IO extends Options<any>, IS extends InSite<IO>>(options: IO, asPromise = false) {
+	static init<IO extends Options<any>, IS extends InSite<IO>>(options?: IO, asPromise?: false): OmitRedundant<IS, IO>;
+	static init<IO extends Options<any>, IS extends InSite<IO>>(options?: IO, asPromise = false) {
 		const inSite = new InSite(options) as IS;
 		
 		return asPromise ?
