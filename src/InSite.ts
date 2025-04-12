@@ -39,7 +39,7 @@ export class InSite<
 		super();
 		
 		if (options)
-			this.init(options);
+			void this.init(options);
 		
 	}
 	
