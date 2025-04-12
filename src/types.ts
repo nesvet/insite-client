@@ -27,6 +27,7 @@ export type Options<AS extends AbilitiesSchema> = {
 	ws?: WSO;
 	cookie?: Cookie | null;
 	users?: Users<AS> | null;
+	public?: boolean;
 };
 
 
@@ -35,13 +36,22 @@ type OptionsWithWSIncomingTransport = AnyProp & { ws: AnyProp & { incomingTransp
 type OptionsWithWSOutgoingTransport = AnyProp & { ws: AnyProp & { outgoingTransport: WSOutgoingTransport } };
 type OptionsWithCookie = AnyProp & { cookie?: Cookie };
 type OptionsWithUsers = OptionsWithCookie & OptionsWithWSSubscriptions & { users?: Users<any> };
+type OptionsWithPublic = OptionsWithCookie & OptionsWithWSSubscriptions & { public: true };
+
+
+type ExtendsOrOmitUsersProps<O, I> =
+	O extends OptionsWithPublic ?
+		Omit<I, "orgs" | "roles" | "users" | "usersSubscriptionGroup"> :
+		O extends OptionsWithUsers ?
+			I :
+			Omit<I, "isLoggedIn" | "login" | "logout" | "orgs" | "roles" | "user" | "users" | "usersSubscriptionGroup">;
 
 
 export type OmitRedundant<I, O> =
 	ExtendsOrOmit<O, OptionsWithWSIncomingTransport, "incomingTransport",
 		ExtendsOrOmit<O, OptionsWithWSOutgoingTransport, "outgoingTransport",
 			ExtendsOrOmit<O, OptionsWithCookie, "cookie",
-				ExtendsOrOmit<O, OptionsWithUsers, "isLoggedIn" | "login" | "logout" | "orgs" | "roles" | "user" | "users" | "usersSubscriptionGroup",
+				ExtendsOrOmitUsersProps<O,
 					I
 				>
 			>

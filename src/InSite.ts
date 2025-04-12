@@ -65,7 +65,8 @@ export class InSite<
 			const {
 				ws: wsWithOtherOptions = {},
 				cookie: cookieOptions,
-				users
+				users,
+				public: isPublic
 			} = options ?? {};
 			
 			const {
@@ -94,16 +95,13 @@ export class InSite<
 				this.login = login<O>;
 				this.logout = logout<O>;
 				
-				this.usersSubscriptionGroup = new UsersSubscriptionGroup({ target: this });
-				
-				await new Promise<void>(resolve => {
-					
-					this.usersSubscriptionGroup.once("init", () => {
+				if (isPublic)
+					await new Promise<void>(resolve => {
 						
-						this.isLoggedIn = !!this.user;
-						
-						this.usersSubscriptionGroup.on("update.user", (user: CurrentUser) => {
-							if (user.valueOf()) {
+						new Subscription("object", "user", [ true ], user => {
+							this.user = user;
+							
+							if (this.user) {
 								if (!this.isLoggedIn) {
 									this.isLoggedIn = true;
 									this.emit("login", true);
@@ -113,16 +111,43 @@ export class InSite<
 								this.emit("logout", false);
 							}
 							
+							if (!this.isReady)
+								resolve();
+							
 						});
 						
-						resolve();
+					});
+				else {
+					this.usersSubscriptionGroup = new UsersSubscriptionGroup({ target: this });
+					
+					await new Promise<void>(resolve => {
 						
-						if (this.isLoggedIn)
-							this.emit("login", true);
+						this.usersSubscriptionGroup.once("init", () => {
+							
+							this.isLoggedIn = !!this.user;
+							
+							this.usersSubscriptionGroup.on("update.user", (user: CurrentUser) => {
+								if (user.valueOf()) {
+									if (!this.isLoggedIn) {
+										this.isLoggedIn = true;
+										this.emit("login", true);
+									}
+								} else if (this.isLoggedIn) {
+									this.isLoggedIn = false;
+									this.emit("logout", false);
+								}
+								
+							});
+							
+							resolve();
+							
+							if (this.isLoggedIn)
+								this.emit("login", true);
+							
+						});
 						
 					});
-					
-				});
+				}
 			}
 			
 			this.isReady = true;
