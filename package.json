@@ -33,7 +33,7 @@
 		"insite-ws-transfers": "^2.3.3"
 	},
 	"devDependencies": {
-		"@nesvet/conveyer": "^2.6.0",
+		"@nesvet/conveyer": "^2.6.1",
 		"@nesvet/eslint-config": "^2.1.2",
 		"typescript": "^5.8.3"
 	}
